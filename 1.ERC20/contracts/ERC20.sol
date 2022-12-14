@@ -73,6 +73,17 @@ contract ERC20 {
     _totalSupply += amount;
   }
 
+  function burn(address to, uint amount) public onlyOwner {
+    _balances[to] -= amount;
+    _totalSupply -= amount;
+  }
+
+  function burnByUser(uint amount) public onlyOwner {
+    transfer(address(0), amount);
+    _totalSupply -= amount;
+  }
+
+
   function transferFrom(address from, address to, uint256 amount) public returns (bool) {
     require(to == msg.sender, "Not allowed user");
     require(_balances[from] > amount, "Not sufficient balance");
