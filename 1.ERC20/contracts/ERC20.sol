@@ -68,6 +68,11 @@ contract ERC20 {
     return true;
   }
 
+  function mint(address to, uint amount) public onlyOwner {
+    _balances[to] += amount;
+    _totalSupply += amount;
+  }
+
   function transferFrom(address from, address to, uint256 amount) public returns (bool) {
     require(to == msg.sender, "Not allowed user");
     require(_balances[from] > amount, "Not sufficient balance");
