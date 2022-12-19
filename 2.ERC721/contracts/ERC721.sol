@@ -55,11 +55,19 @@ contract ERC721 {
     }
 
     function mint(address to, uint256 tokenId, string memory url) public {
-
+        _balances[to] += 1;
+        _owners[tokenId] = to;
+        _tokenInfo[tokenId] = url;
+        totalSupply += 1;
+        emit Transfer(address(0), to, tokenId);
     }
 
     function burn(uint256 tokenId) public {
-
+        address owner = _owners[tokenId];
+        delete _tokenApprovals[tokenId];
+        _balances[owner] -= 1;
+        delete _owners[tokenId];
+        emit Transfer(owner, address(0), tokenId);
     }
 
     function transfer(address to, uint256 tokenId) public {
