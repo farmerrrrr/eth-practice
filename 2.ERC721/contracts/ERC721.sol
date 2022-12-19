@@ -31,27 +31,33 @@ contract ERC721 {
     }
     
     function name() public view returns (string memory) {
-      
+        return _name;
     }
     
     function symbol() public view returns (string memory) {
-      
+        return _symbol;
     }
     
     function tokenURI(uint256 tokenId) public view returns (string memory) {
-      
+        return _tokenInfo[tokenId];
     }
 
     function getApproved(uint256 tokenId) public view returns (address) {
-      
+        return _tokenApprovals[tokenId];
     }
 
     function isApprovedForAll(address owner, address operator) public view returns (bool) {
-
+        return _operatorApprovals[owner][operator];
     }
 
     function transferFrom(address from, address to, uint256 tokenId) public {
-      
+        address owner = _owners[tokenId];
+        require((from == owner || isApprovedForAll(owner, msg.sender)) || getApproved(tokenId) == msg.sender, "Not approved");
+        delete _tokenApprovals[tokenId];
+        _balances[from] -= 1;
+        _balances[to] += 1;
+        _owners[tokenId] = to;
+        emit Transfer(from, to, tokenId);
     }
 
     function mint(address to, uint256 tokenId, string memory url) public {
@@ -80,10 +86,13 @@ contract ERC721 {
     }
 
     function approve(address to, uint256 tokenId) public {
-
+        require(_owners[tokenId] == msg.sender, "Incorrect owner");
+        _tokenApprovals[tokenId] = to;
+        emit Approval(_owners[tokenId], to, tokenId);
     }
 
     function setApprovalForAll(address owner, address operator, bool approved) public {
-
+        _operatorApprovals[owner][operator] = approved;
+        emit ApprovalForAll(owner, operator, approved);
     }
 }
