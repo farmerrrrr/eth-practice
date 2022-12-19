@@ -3,6 +3,7 @@ pragma solidity >=0.8.0 <0.9.0;
 
 contract Proxy {
     address public implementation;
+    uint public x = 0;
 
     function setImplementation(address _implementation) external {
         implementation = _implementation;
