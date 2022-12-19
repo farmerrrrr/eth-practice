@@ -23,11 +23,11 @@ contract ERC721 {
     }
 
     function balanceOf(address owner) public view returns (uint256) {
-      
+        return _balances[owner];
     }
 
-    function ownerOf(uint256 tokenId) public view returns (uint256) {
-      
+    function ownerOf(uint256 tokenId) public view returns (address) {
+        return _owners[tokenId];
     }
     
     function name() public view returns (string memory) {
@@ -71,7 +71,12 @@ contract ERC721 {
     }
 
     function transfer(address to, uint256 tokenId) public {
-
+        require(_owners[tokenId] == msg.sender, "Incorrect owner");
+        delete _tokenApprovals[tokenId];
+        _balances[msg.sender] -= 1;
+        _balances[to] += 1;
+        _owners[tokenId] = to;
+        emit Transfer(msg.sender, to, tokenId);
     }
 
     function approve(address to, uint256 tokenId) public {
