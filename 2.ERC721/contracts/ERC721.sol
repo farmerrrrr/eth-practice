@@ -57,6 +57,7 @@ contract ERC721 {
         _balances[from] -= 1;
         _balances[to] += 1;
         _owners[tokenId] = to;
+
         emit Transfer(from, to, tokenId);
     }
 
@@ -65,6 +66,7 @@ contract ERC721 {
         _owners[tokenId] = to;
         _tokenInfo[tokenId] = url;
         totalSupply += 1;
+
         emit Transfer(address(0), to, tokenId);
     }
 
@@ -73,6 +75,7 @@ contract ERC721 {
         delete _tokenApprovals[tokenId];
         _balances[owner] -= 1;
         delete _owners[tokenId];
+
         emit Transfer(owner, address(0), tokenId);
     }
 
@@ -82,17 +85,20 @@ contract ERC721 {
         _balances[msg.sender] -= 1;
         _balances[to] += 1;
         _owners[tokenId] = to;
+
         emit Transfer(msg.sender, to, tokenId);
     }
 
     function approve(address to, uint256 tokenId) public {
         require(_owners[tokenId] == msg.sender, "Incorrect owner");
         _tokenApprovals[tokenId] = to;
+
         emit Approval(_owners[tokenId], to, tokenId);
     }
 
     function setApprovalForAll(address owner, address operator, bool approved) public {
         _operatorApprovals[owner][operator] = approved;
+        
         emit ApprovalForAll(owner, operator, approved);
     }
 }
