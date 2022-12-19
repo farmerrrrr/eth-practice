@@ -5,7 +5,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-contract ProxyContractV1 is Initializable {
+contract ProxyContractV1 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     uint256 public count;
 
     function initialize() public initializer {
@@ -13,9 +13,7 @@ contract ProxyContractV1 is Initializable {
         _Ownable_init();
     }
 
-    function _authorizeUpgrade(address) internal override onlyOwner {
-
-    }
+    function _authorizeUpgrade(address) internal override onlyOwner { }
     
     function increase() external {
         count++;
