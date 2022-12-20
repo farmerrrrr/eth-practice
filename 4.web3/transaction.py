@@ -16,3 +16,5 @@ print("Private key: ", private_key)
 print("Account Address: ", account.address)
 print("Account Balance: ", w3.eth.getBalance(account.address))
 print("######################################################################################")
+
+f.close()
