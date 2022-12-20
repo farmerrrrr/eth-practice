@@ -21,3 +21,11 @@ latestBlock = w3.eth.get_block('latest')
 print("############################")
 print(json.dumps(dict(latestBlock), cls=HexJsonEncoder))
 print("############################")
+
+txList = latestBlock.transactions
+for tx in txList:
+        print("Get transaction info")
+        print(Web3.toHex(tx))
+        txDetail = w3.eth.getTransaction(Web3.toHex(tx))
+        print(json.dumps(dict(txDetail), cls=HexJsonEncoder))
+        print("############################")
