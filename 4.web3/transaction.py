@@ -18,3 +18,28 @@ print("Account Balance: ", w3.eth.getBalance(account.address))
 print("######################################################################################")
 
 f.close()
+
+f.open("address.txt", "rt")
+addr = f.readline()
+
+signedTransaction = w3.eth.account.sign_transaction(dict(
+    nonce = w3.eth.getTransactionCount(account.address),
+    gas = 100000,
+    maxFeePerGas = 3000000000,
+    maxPriorityFeePerGas = 3000000000,
+    to = addr,
+    value = w3.towei(0.001, 'ether'),
+    data = b'first transaction',
+    chainId = 5,
+    type = 2
+), private_key)
+
+print("######################################################################################")
+print(signedTransaction)
+print("######################################################################################")
+
+w3.eth.sendRawTransaction(signedTransaction.rawTransaction)
+
+print(w3.eth.waitForTransactionReceipt(signedTransaction.hash, 500))
+
+f.close()
